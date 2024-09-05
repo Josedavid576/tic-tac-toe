@@ -52,3 +52,33 @@ const TableroDeJuego = (() => {
 const Jugador = (nombre, marca) => {
     return { nombre, marca };
 };
+
+const ControladorDeJuego = (() => {
+    const jugador1 = Jugador("Jugador 1", "X");
+    const jugador2 = Jugador("Jugador 2", "O");
+    let jugadorActual = jugador1;
+
+    const cambiarTurno = () => {
+        jugadorActual = jugadorActual === jugador1 ? jugador2 : jugador1;
+    };
+
+    const jugarTurno = (fila, columna) => {
+        if (TableroDeJuego.colocarMarca(fila, columna, jugadorActual.marca)) {
+            const ganador = TableroDeJuego.hayGanador();
+            if (ganador) {
+                return `${ganador === "Empate" ? "Es un empate" : `${jugadorActual.nombre} ha ganado`}!`;
+            }
+            cambiarTurno();
+            return null;
+        } else {
+            return "Ese lugar ya está ocupado. Elige otro.";
+        }
+    };
+
+    const reiniciarJuego = () => {
+        TableroDeJuego.reiniciar();
+        jugadorActual = jugador1;
+    };
+
+    return { jugarTurno, reiniciarJuego, obtenerJugadorActual: () => jugadorActual.nombre };
+})();
