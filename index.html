@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tres en Raya</title>
+    <style>
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+        }
+        .celda {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .mensaje {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tablero"></div>
+    <div class="mensaje"></div>
+    <button onclick="iniciarJuego()">Reiniciar Juego</button>
+
+    <script>
+        const tableroElement = document.querySelector(".tablero");
+        const mensajeElement = document.querySelector(".mensaje");
+
+        const actualizarInterfaz = () => {
+            const tablero = TableroDeJuego.obtenerTablero();
+            tableroElement.innerHTML = "";
+            for (let fila = 0; fila < tablero.length; fila++) {
+                for (let columna = 0; columna < tablero[fila].length; columna++) {
+                    const celdaElement = document.createElement("div");
+                    celdaElement.classList.add("celda");
+                    celdaElement.textContent = tablero[fila][columna];
+                    celdaElement.addEventListener("click", () => manejarClick(fila, columna));
+                    tableroElement.appendChild(celdaElement);
+                }
+            }
+        };
+
+        const manejarClick = (fila, columna) => {
+            const resultado = ControladorDeJuego.jugarTurno(fila, columna);
+            if (resultado) {
+                mensajeElement.textContent = resultado;
+            }
+            actualizarInterfaz();
+        };
+
+        const iniciarJuego = () => {
+            ControladorDeJuego.reiniciarJuego();
+            mensajeElement.textContent = "";
+            actualizarInterfaz();
+        };
+
+        iniciarJuego();
+    </script>
+</body>
+</html>
