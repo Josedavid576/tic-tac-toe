@@ -48,3 +48,7 @@ const TableroDeJuego = (() => {
 
     return { obtenerTablero, colocarMarca, reiniciar, hayGanador };
 })();
+
+const Jugador = (nombre, marca) => {
+    return { nombre, marca };
+};
