@@ -22,6 +22,28 @@ const TableroDeJuego = (() => {
             ["", "", ""]
         ];
     };
+    const actualizarInterfaz = () => {
+        const tablero = TableroDeJuego.obtenerTablero();
+        tableroElement.innerHTML = "";
+        for (let fila = 0; fila < tablero.length; fila++) {
+            for (let columna = 0; columna < tablero[fila].length; columna++) {
+                const celdaElement = document.createElement("div");
+                celdaElement.classList.add("celda");
+                celdaElement.textContent = tablero[fila][columna];
+                
+               
+                if (tablero[fila][columna] === "X") {
+                    celdaElement.classList.add("X");
+                } else if (tablero[fila][columna] === "O") {
+                    celdaElement.classList.add("O");
+                }
+    
+                celdaElement.addEventListener("click", () => manejarClick(fila, columna));
+                tableroElement.appendChild(celdaElement);
+            }
+        }
+    };
+    
 
     const hayGanador = () => {
         const lineasGanadoras = [
